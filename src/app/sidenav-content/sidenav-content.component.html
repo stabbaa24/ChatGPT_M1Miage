@@ -1,0 +1,20 @@
+<div class="sidenav-header">
+    <div class="logo-container">
+        <img src="assets/miagegpt-logo.png" class="logo">
+    </div>
+    <div class="logo-text" >
+        MiageGPT
+    </div>
+</div>
+<mat-nav-list class="nav-list">
+    <a mat-list-item *ngFor="let data of navData" class="nav-list-items">
+        <mat-icon matListItemIcon class="nav-list-icons">{{data.icon}}</mat-icon>
+        <span matListItemLine class="nav-list-label">{{data.label}}</span>
+    </a>
+</mat-nav-list>
+<mat-nav-list class="new-chat-container">
+    <a mat-list-item class="new-chat">
+        <mat-icon matListItemIcon class="new-chat-icons">add_comment</mat-icon>
+        <span matListItemLine class="new-chat-text">New Chat</span>
+    </a>
+</mat-nav-list>

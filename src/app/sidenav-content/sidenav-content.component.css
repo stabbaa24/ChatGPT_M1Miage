@@ -1,0 +1,89 @@
+.sidenav-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sidenav-header .logo {
+    width: 3rem;
+    height: 3rem;
+
+}
+.sidenav-header .logo-text {
+    color: #164445;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/*----------------- NAV LIST CONTENT -----------------*/
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: #164445;
+    border-width: 0 0 2px 0;
+    border-style: solid;
+}
+
+.nav-list .nav-list-icons {
+    color: #164445;
+    font-size: 1.5rem;
+}
+
+.nav-list .nav-list-label {
+    color: #164445;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.nav-list .nav-list-items:hover {
+    background-color: #6b968c;
+
+    .nav-list-icons {
+        color: #ecf6f5;
+    }
+
+    .nav-list-label {
+        color: #ecf6f5;
+    }
+}
+
+/*----------------- NEW CHAT -----------------*/
+.new-chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.new-chat-container .new-chat-icons {
+    color: #164445;
+    font-size: 1.5rem;
+}
+
+.new-chat-container .new-chat-text {
+    color: #164445;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.new-chat:hover {
+    background-color: #6b968c;
+
+    .new-chat-icons {
+        color: #ecf6f5;
+    }
+
+    .new-chat-text {
+        color: #ecf6f5;
+    }
+}

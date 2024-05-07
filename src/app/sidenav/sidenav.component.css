@@ -1,0 +1,215 @@
+
+mat-toolbar {
+    position: relative;
+    display: flex;
+    z-index: 5;
+    background-color: #ecf6f5;
+    box-shadow: 0.063rem 0 1rem #164445;
+    justify-content: space-between;
+    align-items: center;
+}
+
+mat-sidenav-container {
+    height: calc(100% - 64px);
+    background-color: #ecf6f5;
+}
+
+.miagegpt-toolbar .sidenav-button{
+    color: #164445;
+    margin-left: 0;
+}
+
+.miagegpt-toolbar .title{
+    color: #164445;
+}
+
+.miagegpt-toolbar .new-chat-button{
+    color: #164445;
+    margin-right: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+i {
+    color: #164445;
+}
+
+.sidenav {
+    background: #ecf6f5;
+    transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+    z-index: 1;
+    box-shadow: 0.063rem 0 1.25rem #164445;
+    text-decoration: none;
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0.938rem 0.938rem 0 0.938rem;
+
+        .logo {
+            background: none;
+            border: none;
+            display: flex;
+            width: 5rem;
+            min-width: 5rem;
+            border-radius: 0.313rem;
+            height: 5rem;
+            align-items: center;
+            flex-direction: row;
+
+            .logo-text {
+                color: #164445;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
+
+        .logo-container:hover {
+            background-color: #6b968c;
+            border-radius: 5px;
+        }
+
+        .btn-close {
+            margin-left: auto;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+
+            color: #164445;
+
+            .close-icon {
+                font-size: 1.5rem;
+                color: #164445;
+            }
+        }
+    }
+}
+
+.sidenav-collapsed {
+    width: 16.5625rem;
+}
+
+.sidenav-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.938rem;
+    margin: 0;
+    border: #164445;
+    border-width: 0 0 2px 0;
+    border-style: solid;
+    text-decoration: none;
+
+    .sidenav-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
+        cursor: pointer;
+
+        .sidenav-link-icon {
+            color: #164445;
+            background-color: transparent;
+            margin-left: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .sidenav-link-text {
+            text-decoration: none !important;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            color: #164445;
+
+        }
+    }
+
+    .sidenav-item:hover {
+        background-color: #6b968c;
+        border-radius: 5px;
+
+        .sidenav-link-text {
+            color: #ecf6f5;
+        }
+
+        .sidenav-link-icon {
+            color: #ecf6f5;
+        }
+    }
+}
+.new-chat-container {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.938rem;
+    margin: 0;
+    text-decoration: none;
+
+    .new-chat {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        .new-chat-logo {
+            color: #164445;
+            background-color: transparent;
+            margin-left: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .new-chat-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            color: #164445;
+        }
+    }
+}
+
+.new-chat-container:hover {
+    background-color: #6b968c;
+    color: #ecf6f5;
+    border-radius: 5px;
+    border-style: solid;
+
+    .new-chat-logo {
+        color: #ecf6f5;
+    }
+
+    .new-chat-text {
+        color: #ecf6f5;
+    }
+}
+
+.new-chat:hover {
+    background-color: #6b968c;
+    color: #ecf6f5;
+    border-radius: 5px;
+    border-style: solid;
+
+    .new-chat-logo {
+        color: #ecf6f5;
+    }
+
+    .new-chat-text {
+        color: #ecf6f5;
+    }
+}

@@ -1,0 +1,21 @@
+<mat-toolbar class="miagegpt-toolbar">
+    <button mat-icon-button (click)="toggleSidenav()" class="sidenav-button">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="title">
+        <span class="miagegpt-title">MiageGPT</span>
+    </div>
+    <button mat-icon-button class="new-chat-button">
+      <mat-icon>add_comment</mat-icon>
+    </button>
+</mat-toolbar>
+  
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" [opened]="true" [style.width]="'250px'">
+        <app-sidenav-content></app-sidenav-content>
+    </mat-sidenav>
+    <mat-sidenav-content class="miagegpt-content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+  

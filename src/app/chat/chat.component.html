@@ -1,0 +1,15 @@
+<div class="chat-container">
+    <div class="chat-body">
+      <!-- Affichez les messages ici -->
+    <div class="message" *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'MiageGPT'}">
+        <span class="message-sender">{{ message.sender }}</span>
+        <span class="message-content">{{ message.content }}</span>
+      </div>
+    </div>
+  
+    <div class="chat-input-container">
+      <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message...">
+      <button class="send-button" (click)="sendMessage()">Envoyer</button>
+    </div>
+  </div>
+  
