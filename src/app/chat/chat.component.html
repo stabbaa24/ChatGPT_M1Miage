@@ -1,3 +1,11 @@
+
+<div class="model-selector">
+  <label for="model-select">Choose GPT Model:</label>
+  <select id="model-select" [(ngModel)]="selectedModel">
+    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+    <option value="gpt-4">GPT-4</option>
+  </select>
+</div>
 <div class="chat-container">
     <div class="chat-body">
       <!-- Affichez les messages ici -->
