@@ -4,6 +4,10 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 // Sidebar
 import { SidenavComponent } from './sidenav/sidenav.component';
@@ -22,6 +26,12 @@ import { BodyComponent } from './sidebar/body/body.component';
 
         SidenavComponent,
         NavbarComponent,
+        BodyComponent,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        FormsModule
+        
     ]
 })
 export class AppComponent {

@@ -1,16 +1,22 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ChatComponent } from './chat/chat.component';
+import { AboutComponent } from './about/about.component';
 
 export const routes: Routes = [
     {
         'path': 'home',
-        component: ChatComponent,
+        component: HomeComponent,
         title: 'Home'
     },
     {
-        'path': '',
+        'path': 'about',
+        component: AboutComponent,
+        title: 'About'
+    },
+    {
+        'path': 'chat',
         component: ChatComponent,
-        title: 'Home'
+        title: 'chat'
     }
 ];

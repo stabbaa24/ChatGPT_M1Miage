@@ -4,7 +4,7 @@ export const navbarData = [
     {
         routeLink: 'home',
         label: 'Home',
-        icon: 'home'
+        icon: 'home',
     },
     {
         routeLink: 'about',

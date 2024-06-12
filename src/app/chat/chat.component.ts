@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
+import { environment } from '../environment/environment';
 
 @Component({
   selector: 'app-chat',
@@ -27,6 +28,7 @@ export class ChatComponent {
   constructor(private openaiService: OpenaiService) { }
 
   sendMessage() {
+    //console.log(openaiApiKey);
     const trimmedInput = this.userInput.trim();
     if (trimmedInput) {
       this.messages.push({ sender: 'User', content: trimmedInput });

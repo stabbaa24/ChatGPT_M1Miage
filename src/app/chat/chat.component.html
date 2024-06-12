@@ -16,7 +16,7 @@
     </div>
   
     <div class="chat-input-container">
-      <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message...">
+      <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..." (keydown.enter)="sendMessage()">
       <button class="send-button" (click)="sendMessage()">Envoyer</button>
     </div>
   </div>

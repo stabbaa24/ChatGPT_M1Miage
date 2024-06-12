@@ -36,4 +36,10 @@ export class SidenavComponent {
 
   navData = navbarData;
 
+  chat = {
+    routeLink: 'chat',
+    label: 'Chat',
+    icon: 'chat'
+  }
+  
 }
