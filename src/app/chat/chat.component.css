@@ -74,3 +74,11 @@
 .bot-message .message-content{
   width: 100%;
 }
+
+.recording {
+  background-color: red;
+}
+
+.not-recording {
+  background-color: #164445;
+}

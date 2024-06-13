@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Interface pour un message
@@ -48,7 +49,7 @@ export class ChatComponent {
    * @param openaiService Service OpenAI
    * @param sanitizer Service de sécurité DOM 
    */
-  constructor(private openaiService: OpenaiService, private sanitizer: DomSanitizer) { }
+  constructor(private openaiService: OpenaiService, private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef) { }
 
   /**
    * Envoie un message
@@ -303,69 +304,84 @@ export class ChatComponent {
   }
 
   /**
+   * Méthode pour supprimer un message
+   * @param index Index du message à supprimer
+   */
+  toggleRecording() {
+    console.log("Etat du record : ", this.isRecording); // Affiche l'état du record dans la console
+    if (this.isRecording) { // Vérifie si l'enregistrement est en cours
+      this.stopRecording(); // Arrête l'enregistrement
+    } else { // Sinon
+      this.startRecording(); // Démarre l'enregistrement
+    }
+  }
+  
+  /**
    * Méthode pour démarrer l'enregistrement audio
    */
   startRecording() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { // Accède aux périphériques multimédias
-        this.mediaRecorder = new MediaRecorder(stream); // Crée un enregistreur audio
-        this.mediaRecorder.ondataavailable = (event) => { // Enregistre les données audio
-          this.audioChunks.push(event.data); // Ajoute les données audio aux morceaux audio
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { // Vérifie si les périphériques multimédias sont pris en charge
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { // Demande l'accès à l'enregistrement audio
+        this.mediaRecorder = new MediaRecorder(stream); // Crée un nouvel enregistreur audio
+        this.audioChunks = []; // Réinitialise les morceaux audio
+        this.mediaRecorder.ondataavailable = (event) => { // En cas de données disponibles
+          this.audioChunks.push(event.data); // Ajoute les données audio aux morceaux
         };
-        this.mediaRecorder.start(); // Démarre l'enregistrement audio
-        this.isRecording = true; // Indique que l'enregistrement est en cours
+        this.mediaRecorder.start(); // Démarre l'enregistrement
+        this.isRecording = true; // Met à jour l'état de l'enregistrement
+        console.log("Recording started."); // Affiche un message dans la console
       }).catch(error => { // En cas d'erreur
         console.error('Error accessing media devices.', error); // Affiche l'erreur dans la console
       });
     } else {
-      console.error('Media devices are not supported by this browser.'); // Affiche un message d'erreur
+      console.error('Media devices are not supported by this browser.'); // Affiche un message d'erreur dans la console
     }
   }
-
+  
   /**
    * Méthode pour arrêter l'enregistrement audio
    */
   stopRecording() {
     if (this.mediaRecorder) { // Vérifie si l'enregistreur audio existe
-      this.mediaRecorder.stop(); // Arrête l'enregistrement audio
-      this.mediaRecorder.onstop = () => { // En cas d'arrêt de l'enregistrement
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' }); // Crée un Blob audio
-        this.audioChunks = []; // Réinitialise les morceaux audio
-        this.handleAudioBlob(audioBlob); // Traite le Blob audio
-        this.isRecording = false; // Indique que l'enregistrement est terminé
+      this.mediaRecorder.onstop = async () => { // En cas d'arrêt de l'enregistrement
+        console.log("Recording stopped, processing audio."); // Affiche un message dans la console
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' }); // Crée un blob audio à partir des morceaux
+        await this.handleAudioBlob(audioBlob);  // Traite le blob audio
+        this.isRecording = false;  // Met à jour l'état de l'enregistrement
+        console.log("Processing complete, isRecording set to false."); // Affiche un message dans la console
+        this.cdr.detectChanges();  // Force la mise à jour de l'interface utilisateur
       };
+      this.mediaRecorder.stop(); // Arrête l'enregistrement
+      console.log("Stopping recording..."); // Affiche un message dans la console
     }
   }
   
   /**
-   * Méthode pour traiter un Blob audio
+   * Méthode pour traiter un blob audio
    * @param audioBlob Blob audio à traiter
    */
-  handleAudioBlob(audioBlob: Blob) {
+  async handleAudioBlob(audioBlob: Blob) {
+    console.log("Handling audio blob..."); // Affiche un message dans la console
     const formData = new FormData(); // Crée un objet FormData
-    formData.append('file', audioBlob, 'audio.mp3'); // Ajoute le Blob audio à l'objet FormData
-    formData.append('model', 'whisper-1'); // Ajoute le modèle de transcription à l'objet FormData
-
-    this.openaiService.transcribeAudio(formData).subscribe({ // Envoie la demande de transcription à OpenAI
-      next: (response) => { // En cas de succès
-        const transcript = response.text; // Récupère la transcription
-        this.messages.push({ sender: 'User', content: transcript }); // Ajoute la transcription à la conversation
-
-        this.openaiService.sendMessage(transcript, this.selectedModel).subscribe({ // Envoie la transcription à OpenAI
-          next: (response) => { // En cas de succès
-            const botResponse = response.choices[0].message.content; // Récupère la réponse du bot
-            this.messages.push({ sender: 'MiageGPT', content: botResponse }); // Ajoute la réponse du bot
-          },
-          error: (err) => { // En cas d'erreur
-            console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-            this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
-          }
-        });
-      },
-      error: (err) => { // En cas d'erreur
-        console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
-      }
-    });
+    formData.append('file', audioBlob, 'audio.mp3'); // Ajoute le blob audio au formulaire
+    formData.append('model', 'whisper-1'); // Ajoute le modèle de transcription au formulaire
+  
+    try { // Essaie de transcrire le fichier audio
+      const response = await this.openaiService.transcribeAudio(formData).toPromise(); // Envoie la demande de transcription à OpenAI
+      const transcript = response.text; // Récupère la transcription
+      console.log("Transcription received:", transcript); // Affiche la transcription dans la console
+      this.messages.push({ sender: 'User', content: transcript }); // Ajoute la transcription à la conversation
+      this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+  
+      const botResponse = await this.openaiService.sendMessage(transcript, this.selectedModel).toPromise(); // Envoie la transcription à OpenAI
+      const botContent = botResponse.choices[0].message.content; // Récupère la réponse du bot
+      console.log("Bot response received:", botContent); // Affiche la réponse du bot dans la console
+      this.messages.push({ sender: 'MiageGPT', content: botContent }); // Ajoute la réponse du bot à la conversation
+      this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+    } catch (err) { // En cas d'erreur
+      console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
+      this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+      this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+    }
   }
 }
