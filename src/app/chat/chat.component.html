@@ -1,4 +1,3 @@
-
 <div class="model-selector">
   <label for="model-select">Choose GPT Model:</label>
   <select id="model-select" [(ngModel)]="selectedModel">
@@ -6,18 +5,52 @@
     <option value="gpt-4">GPT-4</option>
   </select>
 </div>
+<div class="model-selector">
+  <label for="dalle-select">Choose DALL-E Model:</label>
+  <select id="dalle-select" [(ngModel)]="selectedDalleModel">
+    <option value="dall-e-2">DALL-E 2</option>
+    <option value="dall-e-3">DALL-E 3</option>
+  </select>
+</div>
+<div class="model-selector">
+  <label for="voice-select">Choose Voice:</label>
+  <select id="voice-select" [(ngModel)]="selectedVoice">
+    <option value="alloy">Alloy</option>
+    <option value="echo">Echo</option>
+    <option value="fable">Fable</option>
+    <option value="onyx">Onyx</option>
+    <option value="nova">Nova</option>
+    <option value="shimmer">Shimmer</option>
+  </select>
+</div>
+<div class="language-selector">
+  <label for="language-select">Choose Programming Language:</label>
+  <select id="language-select" [(ngModel)]="selectedLanguage">
+    <option value="python">Python</option>
+    <option value="javascript">JavaScript</option>
+    <option value="java">Java</option>
+    <option value="csharp">C#</option>
+    <option value="cpp">C++</option>
+  </select>
+</div>
 <div class="chat-container">
-    <div class="chat-body">
-      <!-- Affichez les messages ici -->
-    <div class="message" *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'MiageGPT'}">
-        <span class="message-sender">{{ message.sender }}</span>
-        <span class="message-content">{{ message.content }}</span>
-      </div>
-    </div>
-  
-    <div class="chat-input-container">
-      <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..." (keydown.enter)="sendMessage()">
-      <button class="send-button" (click)="sendMessage()">Envoyer</button>
+  <div class="chat-body">
+    <div *ngFor="let message of messages"
+      [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'MiageGPT'}">
+      <span class="message-sender">{{ message.sender }}</span>
+      <span class="message-content" [innerHTML]="message.content"></span>
     </div>
   </div>
-  
+
+  <div class="chat-input-container">
+    <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..."
+      (keydown.enter)="sendMessage()">
+    <button class="send-button" (click)="sendMessage()">Envoyer</button>
+    <button class="send-button" [ngClass]="{'recording': isRecording}" (mousedown)="startRecording()" (mouseup)="stopRecording()">
+      🎤
+    </button>
+  </div>
+  <div class="file-upload-container">
+    <input type="file" (change)="onFileSelected($event)">
+  </div>
+</div>
