@@ -18,5 +18,17 @@ export const routes: Routes = [
         'path': 'chat',
         component: ChatComponent,
         title: 'chat'
+    },
+    {
+        path: '', 
+        redirectTo: '/home', 
+        pathMatch: 'full' 
+    },
+    { 
+        path: '**', 
+        redirectTo: '/home', 
+        pathMatch: 'full' 
     }
+
+
 ];

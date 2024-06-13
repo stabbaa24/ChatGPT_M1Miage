@@ -28,4 +28,5 @@ export class HomeComponent {
       alert('Veuillez entrer une clé OpenAI valide');
     }
   }
+  
 }
