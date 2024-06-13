@@ -33,6 +33,14 @@
     <option value="cpp">C++</option>
   </select>
 </div>
+<div class="response-mode-selector">
+  <label for="response-mode-select">Choose Response Mode:</label>
+  <select id="response-mode-select" [(ngModel)]="selectedResponseMode">
+    <option value="text">Text</option>
+    <option value="speech">Speech</option>
+  </select>
+</div>
+
 <div class="chat-container">
   <div class="chat-body">
     <div *ngFor="let message of messages"

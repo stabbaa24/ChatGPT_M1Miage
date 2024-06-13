@@ -39,11 +39,13 @@ export class ChatComponent {
   selectedStableDiffusionModel = 'stable-diffusion-v1'; // Le modèle Stable Diffusion par défaut
   selectedLanguage = 'python'; // Le langage de programmation par défaut
   selectedFile: File | null = null; // Le fichier audio sélectionné
-  
+
   private mediaRecorder: MediaRecorder | null = null; // L'enregistreur audio
   private audioChunks: Blob[] = []; // Les morceaux audio enregistrés
   isRecording = false; // Indique si l'enregistrement est en cours
-  
+
+  selectedResponseMode = 'text'; // Le mode de réponse par défaut
+
   /**
    * Constructeur du composant ChatComponent
    * @param openaiService Service OpenAI
@@ -315,7 +317,7 @@ export class ChatComponent {
       this.startRecording(); // Démarre l'enregistrement
     }
   }
-  
+
   /**
    * Méthode pour démarrer l'enregistrement audio
    */
@@ -337,7 +339,7 @@ export class ChatComponent {
       console.error('Media devices are not supported by this browser.'); // Affiche un message d'erreur dans la console
     }
   }
-  
+
   /**
    * Méthode pour arrêter l'enregistrement audio
    */
@@ -355,33 +357,57 @@ export class ChatComponent {
       console.log("Stopping recording..."); // Affiche un message dans la console
     }
   }
-  
+
   /**
    * Méthode pour traiter un blob audio
    * @param audioBlob Blob audio à traiter
    */
   async handleAudioBlob(audioBlob: Blob) {
-    console.log("Handling audio blob..."); // Affiche un message dans la console
-    const formData = new FormData(); // Crée un objet FormData
+    const formData = new FormData(); // Crée un formulaire de données
     formData.append('file', audioBlob, 'audio.mp3'); // Ajoute le blob audio au formulaire
     formData.append('model', 'whisper-1'); // Ajoute le modèle de transcription au formulaire
   
-    try { // Essaie de transcrire le fichier audio
-      const response = await this.openaiService.transcribeAudio(formData).toPromise(); // Envoie la demande de transcription à OpenAI
-      const transcript = response.text; // Récupère la transcription
+    try {
+      const transcribeResponse = await this.openaiService.transcribeAudio(formData).toPromise(); // Transcrit le fichier audio
+      const transcript = transcribeResponse.text; // Récupère la transcription
       console.log("Transcription received:", transcript); // Affiche la transcription dans la console
       this.messages.push({ sender: 'User', content: transcript }); // Ajoute la transcription à la conversation
-      this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+
+      const textResponse = await this.openaiService.sendMessage(transcript, this.selectedModel).toPromise(); // Envoie la transcription à OpenAI
+      const text = textResponse.choices[0].message.content; // Récupère la réponse du bot
+      console.log("Bot text response received:", text); // Affiche la réponse du bot dans la console
   
-      const botResponse = await this.openaiService.sendMessage(transcript, this.selectedModel).toPromise(); // Envoie la transcription à OpenAI
-      const botContent = botResponse.choices[0].message.content; // Récupère la réponse du bot
-      console.log("Bot response received:", botContent); // Affiche la réponse du bot dans la console
-      this.messages.push({ sender: 'MiageGPT', content: botContent }); // Ajoute la réponse du bot à la conversation
-      this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+      if (this.selectedResponseMode === 'speech') { // Vérifie si le mode de réponse est vocal
+        this.sendSpeechResponse(text); // Envoie une réponse vocale
+      } else {
+        this.messages.push({ sender: 'MiageGPT', content: text }); // Ajoute la réponse du bot à la conversation
+        this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+      }
     } catch (err) { // En cas d'erreur
       console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
       this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
     }
   }
+  
+  /**
+   * Méthode pour envoyer une réponse vocale
+   * @param text Texte à convertir en parole
+   */
+  sendSpeechResponse(text: string) {
+    this.openaiService.sendSpeechRequest(text, 'tts-1', this.selectedVoice, 'mp3', 1.0).subscribe({ // Envoie la demande de parole à OpenAI
+      next: (response) => { // En cas de succès
+        const audioUrl = URL.createObjectURL(response); // Crée une URL pour l'audio
+        console.log('Audio URL:', audioUrl);  // Affiche l'URL de l'audio dans la console
+        const audioHtml = this.sanitizer.bypassSecurityTrustHtml(`<audio controls><source src="${audioUrl}" type="audio/mp3"></audio>`); // Crée une balise HTML pour l'audio
+        this.messages.push({ sender: 'MiageGPT', content: audioHtml as string }); // Ajoute l'audio à la conversation
+        this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+      },
+      error: (err) => { // En cas d'erreur
+        console.error('Error when calling OpenAI for speech:', err); // Affiche l'erreur dans la console
+        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI pour la réponse vocale.' }); // Ajoute un message d'erreur
+        this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
+      }
+    });
+  }  
 }
