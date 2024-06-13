@@ -46,5 +46,11 @@
     <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..."
       (keydown.enter)="sendMessage()">
     <button class="send-button" (click)="sendMessage()">Envoyer</button>
+    <button class="send-button" [ngClass]="{'recording': isRecording}" (mousedown)="startRecording()" (mouseup)="stopRecording()">
+      🎤
+    </button>
+  </div>
+  <div class="file-upload-container">
+    <input type="file" (change)="onFileSelected($event)">
   </div>
 </div>
