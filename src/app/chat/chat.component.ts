@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
+import { ModelService } from '../services/model.service';
+import { environment } from '../environment/environment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 
 export interface Message {
   sender: string;
@@ -20,6 +23,7 @@ export interface Message {
   ],
   providers: [
     OpenaiService,
+    ModelService,
     HttpClient
   ],
   templateUrl: './chat.component.html',
@@ -35,7 +39,11 @@ export class ChatComponent {
   selectedStableDiffusionModel = 'stable-diffusion-v1';
   selectedLanguage = 'python';
 
-  constructor(private openaiService: OpenaiService, private sanitizer: DomSanitizer) { }
+  constructor(private openaiService: OpenaiService, private modelService: ModelService, private sanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    this.modelService.currentModel.subscribe(model => this.selectedModel = model);
+  }
 
   sendMessage() {
     const trimmedInput = this.userInput.trim();

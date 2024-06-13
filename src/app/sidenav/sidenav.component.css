@@ -1,4 +1,3 @@
-
 mat-toolbar {
     position: relative;
     display: flex;
@@ -10,6 +9,7 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
+    width: 100%;
     height: calc(100% - 64px);
     background-color: #ecf6f5;
 }
@@ -212,4 +212,22 @@ i {
     .new-chat-text {
         color: #ecf6f5;
     }
+}
+
+.title-selector {
+    display: flex;
+    flex-direction: row;
+}
+
+.model-selector {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+  
+.model-selector label {
+margin-right: 8px;
 }
