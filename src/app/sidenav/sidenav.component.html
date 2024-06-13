@@ -2,8 +2,16 @@
     <button mat-icon-button (click)="toggleSidenav()" class="sidenav-button">
       <mat-icon>menu</mat-icon>
     </button>
-    <div class="title">
-        <span class="miagegpt-title">MiageGPT</span>
+    <div class="title-selector">
+        <div class="title">
+            <span class="miagegpt-title">MiageGPT</span>
+        </div>
+        <div class="model-selector">
+            <select id="model-select" [(ngModel)]="selectedModel" (change)="changeModel($event)" class="model-selector">
+                <option value="gpt-3.5-turbo">3.5 Turbo</option>
+                <option value="gpt-4">4</option>
+            </select>
+        </div>
     </div>
     <button mat-icon-button [routerLink]="chat.routeLink" class="new-chat-button">
       <mat-icon>add_comment</mat-icon>

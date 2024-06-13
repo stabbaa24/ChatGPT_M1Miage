@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
 import { environment } from '../environment/environment';
+import { ModelService } from '../services/model.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,6 +16,7 @@ import { environment } from '../environment/environment';
   ],
   providers: [
     OpenaiService,
+    ModelService,
     HttpClient
   ],
   templateUrl: './chat.component.html',
@@ -25,10 +27,13 @@ export class ChatComponent {
   userInput = '';
   selectedModel = 'gpt-3.5-turbo';
 
-  constructor(private openaiService: OpenaiService) { }
+  constructor(private openaiService: OpenaiService, private modelService: ModelService) { }
+
+  ngOnInit() {
+    this.modelService.currentModel.subscribe(model => this.selectedModel = model);
+  }
 
   sendMessage() {
-    //console.log(openaiApiKey);
     const trimmedInput = this.userInput.trim();
     if (trimmedInput) {
       this.messages.push({ sender: 'User', content: trimmedInput });
