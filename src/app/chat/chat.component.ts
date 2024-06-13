@@ -23,7 +23,6 @@ export interface Message {
   ],
   providers: [
     OpenaiService,
-    ModelService,
     HttpClient
   ],
   templateUrl: './chat.component.html',
