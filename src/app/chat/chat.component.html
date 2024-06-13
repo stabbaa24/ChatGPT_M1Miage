@@ -5,15 +5,34 @@
     <option value="gpt-4">GPT-4</option>
   </select>
 </div>
-
 <div class="model-selector">
-  <label for="dalle-model-select">Choose DALL-E Model:</label>
-  <select id="dalle-model-select" [(ngModel)]="selectedDalleModel">
+  <label for="dalle-select">Choose DALL-E Model:</label>
+  <select id="dalle-select" [(ngModel)]="selectedDalleModel">
     <option value="dall-e-2">DALL-E 2</option>
     <option value="dall-e-3">DALL-E 3</option>
   </select>
 </div>
-
+<div class="model-selector">
+  <label for="voice-select">Choose Voice:</label>
+  <select id="voice-select" [(ngModel)]="selectedVoice">
+    <option value="alloy">Alloy</option>
+    <option value="echo">Echo</option>
+    <option value="fable">Fable</option>
+    <option value="onyx">Onyx</option>
+    <option value="nova">Nova</option>
+    <option value="shimmer">Shimmer</option>
+  </select>
+</div>
+<div class="language-selector">
+  <label for="language-select">Choose Programming Language:</label>
+  <select id="language-select" [(ngModel)]="selectedLanguage">
+    <option value="python">Python</option>
+    <option value="javascript">JavaScript</option>
+    <option value="java">Java</option>
+    <option value="csharp">C#</option>
+    <option value="cpp">C++</option>
+  </select>
+</div>
 <div class="chat-container">
   <div class="chat-body">
     <div *ngFor="let message of messages"
