@@ -71,3 +71,35 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.profil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+
+.description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.linkedin-img {
+  width: 50px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.nom {
+  font-size: 1.5em;
+  font-weight: 600;
+}
