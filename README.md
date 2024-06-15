@@ -19,9 +19,9 @@ PrideGPT is an enhanced version of ChatGPT, capable of doing much more than answ
 
 Use special commands to access advanced features:
 
-/image to generate images with Dall-E
-/speech to obtain a vocalized response
-/stable-diffusion to use Stable Diffusion services
+- /image to generate images with Dall-E
+- /speech to obtain a vocalized response
+- /stable-diffusion to use Stable Diffusion services
 
 /!\ - WARNING - /!\ : 
 
