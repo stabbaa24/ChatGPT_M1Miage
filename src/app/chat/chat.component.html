@@ -1,31 +1,43 @@
-<div class="model-selector">
-  <label for="dalle-select">Choose DALL-E Model:</label>
-  <select id="dalle-select" [(ngModel)]="selectedDalleModel">
-    <option value="dall-e-2">DALL-E 2</option>
-    <option value="dall-e-3">DALL-E 3</option>
-  </select>
+<div class="options-selector">
+  <div class="dalle-selector">
+    <label for="dalle-select"><h4>DALL-E Model</h4></label>
+    
+    <select id="dalle-select" [(ngModel)]="selectedDalleModel" class="dalle-dropdown">
+      <option value="dall-e-2">DALL-E 2</option>
+      <option value="dall-e-3">DALL-E 3</option>
+    </select>
+  </div>
+  <div class="voice-selector">
+    <label for="voice-select"><h4>Voice</h4></label>
+    <select id="voice-select" [(ngModel)]="selectedVoice" class="voice-dropdown">
+      <option value="alloy">Alloy</option>
+      <option value="echo">Echo</option>
+      <option value="fable">Fable</option>
+      <option value="onyx">Onyx</option>
+      <option value="nova">Nova</option>
+      <option value="shimmer">Shimmer</option>
+    </select>
+  </div>
+  <div class="language-selector">
+    <label for="language-select"><h4>Programming Language</h4></label>
+    <select id="language-select" [(ngModel)]="selectedLanguage" class="language-dropdown">
+      <option value="python">Python</option>
+      <option value="javascript">JavaScript</option>
+      <option value="java">Java</option>
+      <option value="csharp">C#</option>
+      <option value="cpp">C++</option>
+    </select>
+  </div>
+  <div class="response-mode-selector">
+    <label for="response-mode-select"><h4>Response Mode</h4></label>
+    <select id="response-mode-select" [(ngModel)]="selectedResponseMode" class="response-mode-dropdown">
+      <option value="text">Text</option>
+      <option value="speech">Speech</option>
+    </select>
+  </div>
 </div>
-<div class="model-selector">
-  <label for="voice-select">Choose Voice:</label>
-  <select id="voice-select" [(ngModel)]="selectedVoice">
-    <option value="alloy">Alloy</option>
-    <option value="echo">Echo</option>
-    <option value="fable">Fable</option>
-    <option value="onyx">Onyx</option>
-    <option value="nova">Nova</option>
-    <option value="shimmer">Shimmer</option>
-  </select>
-</div>
-<div class="language-selector">
-  <label for="language-select">Choose Programming Language:</label>
-  <select id="language-select" [(ngModel)]="selectedLanguage">
-    <option value="python">Python</option>
-    <option value="javascript">JavaScript</option>
-    <option value="java">Java</option>
-    <option value="csharp">C#</option>
-    <option value="cpp">C++</option>
-  </select>
-</div>
+
+
 <div class="chat-container">
   <div class="chat-body">
     <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'PrideGPT'}">
@@ -33,9 +45,30 @@
       <span class="message-content" [innerHTML]="message.content"></span>
     </div>
   </div>
-
 </div>
-  <div class="chat-input-container">
-    <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..." (keydown.enter)="sendMessage()">
-    <button class="send-button" (click)="sendMessage()">Envoyer</button>
+<div class="user-input">
+  <div class="file-upload-container">
+    <input type="file" (change)="onFileSelected($event)">
   </div>
+  <div class="chat-input-container">
+      <input [(ngModel)]="userInput" [matAutocomplete]="auto" placeholder="Écrivez votre message..." (input)="onInputChange()" (keydown.enter)="sendMessage()" class="chat-input">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let command of filteredCommands | async" [value]="command">
+          {{ command }}
+        </mat-option>
+      </mat-autocomplete>
+    <button class="send-button" (click)="sendMessage()">Envoyer</button>
+    
+    <button class="send-button" [ngClass]="{'recording': isRecording, 'not-recording': !isRecording}" (click)="toggleRecording()">
+      <mat-icon matListItemIcon>micro</mat-icon>
+    </button>
+  
+    <button class="load-files-button" (click)="triggerFileUpload()">
+      <mat-icon matListItemIcon>file_upload</mat-icon>
+      <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
+    </button>
+  </div>
+  
+</div>
+
+  

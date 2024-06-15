@@ -1,0 +1,8 @@
+<div *ngFor='let session of history; let i = index'>
+    <h3>Session {{i + 1}}</h3>
+    <div *ngFor="let message of session">
+        <span [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'MiageGPT'}">
+        <strong>{{ message.sender }}:</strong> {{ message.content }}
+        </span>
+    </div>
+</div>

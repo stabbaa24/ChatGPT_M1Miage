@@ -25,17 +25,19 @@
       </ul>
     </div>
     
+    <div class="api-input">
+      <mat-form-field appearance="fill"  class="api-key-form">
+        <mat-label>Entrez votre clé OpenAI</mat-label>
+        <input [(ngModel)]="openaiApiKey" placeholder="Votre clé OpenAI" class="api-key-input">
+      </mat-form-field>
+      <button color="primary" (click)="saveApiKey()" class="api-key-button">Enregistrer</button>
+    </div>
+    
     <div class="home-navigation">
-      <button mat-raised-button color="primary" [routerLink]="['/chat']">Commencer un Chat</button>
-      <button mat-raised-button color="accent" [routerLink]="['/about']">En savoir plus</button>
 
-      <div class="api-key-input">
-        <mat-form-field appearance="fill">
-          <mat-label>Entrez votre clé OpenAI</mat-label>
-          <input matInput [(ngModel)]="openaiApiKey" placeholder="Votre clé OpenAI">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="saveApiKey()">Enregistrer</button>
-      </div>
+      <button mat-raised-button color="primary" [routerLink]="['/chat']" class="chat-button">Commencer un Chat</button>
+      <button mat-raised-button color="accent" [routerLink]="['/about']" class="about-button">En savoir plus</button>
+
       
     </div>
   </div>

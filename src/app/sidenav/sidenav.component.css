@@ -2,8 +2,8 @@ mat-toolbar {
     position: relative;
     display: flex;
     z-index: 5;
-    background-color: #ecf6f5;
-    box-shadow: 0.063rem 0 1rem #164445;
+    background-color: #F2F1E8;
+    box-shadow: 0.063rem 0 1rem #0A053B;
     justify-content: space-between;
     align-items: center;
 }
@@ -11,20 +11,20 @@ mat-toolbar {
 mat-sidenav-container {
     width: 100%;
     height: calc(100% - 64px);
-    background-color: #ecf6f5;
+    background-color: #F2F1E8;
 }
 
 .miagegpt-toolbar .sidenav-button{
-    color: #164445;
+    color: #0A053B;
     margin-left: 0;
 }
 
 .miagegpt-toolbar .title{
-    color: #164445;
+    color: #0A053B;
 }
 
 .miagegpt-toolbar .new-chat-button{
-    color: #164445;
+    color: #0A053B;
     margin-right: 0;
 }
 
@@ -33,18 +33,18 @@ a {
 }
 
 i {
-    color: #164445;
+    color: #0A053B;
 }
 
 .sidenav {
-    background: #ecf6f5;
+    background-color: #F2F1E8;
     transition: all 0.3s ease;
     position: fixed;
     top: 0;
     width: 5rem;
     height: 100vh;
     z-index: 1;
-    box-shadow: 0.063rem 0 1.25rem #164445;
+    box-shadow: 0.063rem 0 1.25rem #0A053B;
     text-decoration: none;
 
     .logo-container {
@@ -66,14 +66,14 @@ i {
             flex-direction: row;
 
             .logo-text {
-                color: #164445;
+                color: #0A053B;
                 font-size: 1.5rem;
                 font-weight: 700;
             }
         }
 
         .logo-container:hover {
-            background-color: #6b968c;
+            background-color: #F2F1E8;
             border-radius: 5px;
         }
 
@@ -87,11 +87,11 @@ i {
             background-color: transparent;
             border: none;
 
-            color: #164445;
+            color: #0A053B;
 
             .close-icon {
                 font-size: 1.5rem;
-                color: #164445;
+                color: #0A053B;
             }
         }
     }
@@ -108,7 +108,7 @@ i {
     align-items: center;
     padding: 0.938rem;
     margin: 0;
-    border: #164445;
+    border: #0A053B;
     border-width: 0 0 2px 0;
     border-style: solid;
     text-decoration: none;
@@ -121,7 +121,7 @@ i {
         cursor: pointer;
 
         .sidenav-link-icon {
-            color: #164445;
+            color: #0A053B;
             background-color: transparent;
             margin-left: 0.5rem;
             font-size: 1.5rem;
@@ -132,21 +132,21 @@ i {
             font-size: 1.1rem;
             font-weight: 500;
             margin-left: 0.5rem;
-            color: #164445;
+            color: #0A053B;
 
         }
     }
 
     .sidenav-item:hover {
-        background-color: #6b968c;
+        background-color: #0A053B;
         border-radius: 5px;
 
         .sidenav-link-text {
-            color: #ecf6f5;
+            color: #F2F1E8;
         }
 
         .sidenav-link-icon {
-            color: #ecf6f5;
+            color: #F2F1E8;
         }
     }
 }
@@ -169,7 +169,7 @@ i {
         cursor: pointer;
 
         .new-chat-logo {
-            color: #164445;
+            color: #0A053B;
             background-color: transparent;
             margin-left: 0.5rem;
             font-size: 1.5rem;
@@ -179,38 +179,38 @@ i {
             font-size: 1.1rem;
             font-weight: 500;
             margin-left: 0.5rem;
-            color: #164445;
+            color: #0A053B;
         }
     }
 }
 
 .new-chat-container:hover {
     background-color: #6b968c;
-    color: #ecf6f5;
+    color: #F2F1E8;
     border-radius: 5px;
     border-style: solid;
 
     .new-chat-logo {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 
     .new-chat-text {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 }
 
 .new-chat:hover {
     background-color: #6b968c;
-    color: #ecf6f5;
+    color: #F2F1E8;
     border-radius: 5px;
     border-style: solid;
 
     .new-chat-logo {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 
     .new-chat-text {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 }
 
@@ -230,4 +230,12 @@ i {
   
 .model-selector label {
 margin-right: 8px;
+}
+
+.sidenav-container {
+    background-color: #F2F1E8;
+}
+
+body{
+    background-color: #F2F1E8;
 }

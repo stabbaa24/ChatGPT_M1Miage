@@ -11,14 +11,14 @@ export const navbarData = [
         label: 'About',
         icon: 'info'
     },
-    {
-        routeLink: 'options',
-        label: 'Options',
-        icon: 'settings'
-    },
-    {
-        routeLink: 'contact',
-        label: 'Contact',
-        icon: 'question_answer'
-    }
+    // {
+    //     routeLink: 'options',
+    //     label: 'Options',
+    //     icon: 'settings'
+    // },
+    // {
+    //     routeLink: 'contact',
+    //     label: 'Contact',
+    //     icon: 'question_answer'
+    // }
 ]

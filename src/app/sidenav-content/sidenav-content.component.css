@@ -12,7 +12,7 @@
 
 }
 .sidenav-header .logo-text {
-    color: #164445;
+    color: #0A053B;
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -26,31 +26,31 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    border: #164445;
+    border: #0A053B;
     border-width: 0 0 2px 0;
     border-style: solid;
 }
 
 .nav-list .nav-list-icons {
-    color: #164445;
+    color: #0A053B;
     font-size: 1.5rem;
 }
 
 .nav-list .nav-list-label {
-    color: #164445;
+    color: #0A053B;
     font-size: 1rem;
     font-weight: 500;
 }
 
 .nav-list .nav-list-items:hover {
-    background-color: #6b968c;
+    background-color: #0A053B;
 
     .nav-list-icons {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 
     .nav-list-label {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 }
 
@@ -66,24 +66,24 @@
 }
 
 .new-chat-container .new-chat-icons {
-    color: #164445;
+    color: #0A053B;
     font-size: 1.5rem;
 }
 
 .new-chat-container .new-chat-text {
-    color: #164445;
+    color: #0A053B;
     font-size: 1rem;
     font-weight: 500;
 }
 
 .new-chat:hover {
-    background-color: #6b968c;
+    background-color: #0A053B;
 
     .new-chat-icons {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 
     .new-chat-text {
-        color: #ecf6f5;
+        color: #F2F1E8;
     }
 }
