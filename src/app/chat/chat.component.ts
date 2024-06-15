@@ -94,6 +94,14 @@ export class ChatComponent {
       this.filteredCommands = of([]);
     }
   }
+
+  private escapeHtml(text: string): string {
+    return text.replace(/&/g, '&amp;')
+               .replace(/</g, '&lt;')
+               .replace(/>/g, '&gt;')
+               .replace(/"/g, '&quot;')
+               .replace(/'/g, '&#039;');
+  }
   
 
   saveSession() {
@@ -127,7 +135,8 @@ export class ChatComponent {
     this.openaiService.sendMessage(text, this.selectedModel).subscribe({ // Envoie le message à OpenAI
       next: (response) => { // En cas de succès
         const botResponse = response.choices[0].message.content; // Récupère la réponse du bot
-        this.typeWriterText(botResponse, 'PrideGPT'); // Affiche la réponse progressivement
+        const escapedResponse = this.escapeHtml(botResponse); // Échappe les caractères HTML
+        this.typeWriterText(escapedResponse, 'PrideGPT'); // Affiche la réponse progressivement
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
