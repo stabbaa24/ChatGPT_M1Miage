@@ -10,18 +10,55 @@ This project was developed by a group of first-year MASTER MIAGE students, as pa
 
 ## Presentation
 
-PrideGPT is an enhanced version of ChatGPT, capable of doing much more than answering text questions. Here's what PrideGPT can do for you:
+MiageGPT is an enhanced version of ChatGPT, capable of doing much more than answering text questions. Here's what MiageGPT can do for you:
 
-- Classic chat management with history
+Classic chat management with history
+
 - Image generation with Dall-E and Stable Diffusion
-- Vocalized responses
+- Vocalized answers
+- Information on Miage and Sophia-Antipolis tourist attractions
 - And much more...
 
-Use special commands to access advanced features:
+Choose your GPT model :
 
-- /image to generate images with Dall-E
-- /speech to obtain a vocalized response
-- /stable-diffusion to use Stable Diffusion services
+- GPT -3.5 Turbo
+- GPT -4
+
+Choose your DALL-E model :
+
+- DALL-E 2
+- DALL-E 3
+
+Choose voice :
+
+- Alloy
+- Echo
+- Fable
+- Onyx
+- Nova
+- Shimmer
+
+Choose programming language :
+
+- Python
+- JavaScript
+- Java
+- C#
+- C++
+
+Select response mode :
+
+- Text
+- Speech
+
+Use special commands to access advanced functions:
+
+- /image [Text] to generate images with Dall-E
+- /speech [Text] to obtain a vocalized response. You must first select "Speech" as the response mode.
+- /translate [Language] [Text] translate a text
+- /code [Text] to obtain a block of code. You will need to select the type of programming language
+- /transcribe Allows you to transcribe text from audio. You'll need to attach an audio file.
+- Voice button Allows you to make requests with the sound of your voice. You'll need to choose the type of response, between Speech and text.
 
 /!\ - WARNING - /!\ : 
 
