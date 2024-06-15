@@ -1,6 +1,32 @@
-# ChatgptMiage
+# ChatgptMiage : Welcome to PrideGPT
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+This project was developed by a group of first-year MASTER MIAGE students, as part of a project on Introduction to AI. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+
+## Developpers
+
+- Arthur PRUDENT
+- Pierre SAVE
+- Siham TABBAA
+
+## Presentation
+
+PrideGPT is an enhanced version of ChatGPT, capable of doing much more than answering text questions. Here's what PrideGPT can do for you:
+
+- Classic chat management with history
+- Image generation with Dall-E and Stable Diffusion
+- Vocalized responses
+- And much more...
+
+Use special commands to access advanced features:
+
+/image to generate images with Dall-E
+/speech to obtain a vocalized response
+/stable-diffusion to use Stable Diffusion services
+
+/!\ - WARNING - /!\ : 
+
+In the "home" page you must enter the key to use our GPT.
+
 
 ## Development server
 
