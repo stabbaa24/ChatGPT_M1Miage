@@ -82,7 +82,7 @@ export class ChatComponent {
 
   selectedResponseMode = 'text'; // Le mode de réponse par défaut
 
-  commandList: string[] = ['/image', '/speech', '/stable-diffusion', '/code', '/translate', '/transcribe'];
+  commandList: string[] = ['/image', '/speech', '/code', '/translate', '/transcribe'];
   filteredCommands: Observable<string[]> = of([]);
 
   onInputChange() {

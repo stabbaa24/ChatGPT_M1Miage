@@ -1,29 +1,73 @@
 <div class="home-container">
     <div class="home-header">
-      <img src="assets/PrideGPT-Logo.png" class="home-logo" alt="MiageGPT Logo">
+      <img src="assets/PrideGPT-Logo.png" class="home-logo" alt="PrideGPT Logo">
       <h1>Bienvenue sur PrideGPT</h1>
     </div>
     
     <div class="home-content">
       <p>
-        PrideGPT est une version améliorée de ChatGPT, capable de faire bien plus que répondre à des questions textuelles.
-        Voici ce que PrideGPT peut faire pour vous :
-      </p>
-      <ul>
-        <li>Gestion de chat classique avec historique</li>
-        <li>Génération d'images avec Dall-E et Stable Diffusion</li>
-        <li>Réponses vocalisées</li>
-        <li>Et bien plus encore...</li>
-      </ul>
-      <p>
-        Utilisez les commandes spéciales pour accéder à des fonctionnalités avancées :
-      </p>
-      <ul>
-        <li><code>/image</code> pour générer des images avec Dall-E</li>
-        <li><code>/speech</code> pour obtenir une réponse vocalisée</li>
-        <li><code>/stable-diffusion</code> pour utiliser les services de Stable Diffusion</li>
-      </ul>
-    </div>
+          PrideGPT est une version améliorée de ChatGPT, capable de faire bien plus que répondre à des questions textuelles.
+          Voici ce que PrideGPT peut faire pour vous :
+        </p>
+        <ul>
+          <li>Génération d'images avec Dall-E</li>
+          <li>Réponses vocalisées</li>
+          <li>Et bien plus encore...</li>
+        </ul>
+        <p>
+          Choisir le modèle de GPT :
+        </p>
+        <ul>
+          <li>GPT 3.5 Turbo</li>
+          <li>GPT 4</li>
+        </ul>
+        <p>
+          Choisir le modèle DALL-E :
+        </p>
+        <ul>
+          <li>DALL-E 2</li>
+          <li>DALL-E 3</li>
+        </ul>
+        <p>
+          Choisir la voix :
+        </p>
+        <ul>
+          <li>Alloy</li>
+          <li>Echo</li>
+          <li>Fable</li>
+          <li>Onyx</li>
+          <li>Nova</li>
+          <li>Shimmer</li>
+        </ul>
+        <p>
+          Choisir le langage de programmation :
+        </p>
+        <ul>
+          <li>Python</li>
+          <li>JavaScript</li>
+          <li>Java</li>
+          <li>C#</li>
+          <li>C++</li>
+        </ul>
+        <p>
+          Choisir le mode de réponse
+        </p>
+        <ul>
+          <li>Text</li>
+          <li>Speech</li>
+        </ul>
+        <p>
+          Utilisez les commandes spéciales pour accéder à des fonctionnalités avancées :
+        </p>
+        <ul>
+          <li><code>/image [Text]</code> pour générer des images avec Dall-E</li>
+          <li><code>/speech [Text]</code> pour obtenir une réponse vocalisée. Il faut choisir au préalable le mode "Speech" comme mode de réponse</li>
+          <li><code>/translate [Langue] [Texte]</code> traduire un texte</li>
+          <li><code>/code [Text]</code> pour obtenir un bloc de code. Il faudra choisir le type de langage de programmation</li>
+          <li><code>/transcribe</code> Permet de retranscrire du texte à partir d'un audio. Il faudra joindre un audio</li>
+          <li>Bouton vocal Qui permet de faire des requetes avec le son de votre voix. Il faudra choisir le type de réponse, entre Speech et text</li>
+        </ul>
+      </div>
     
     <div class="api-input">
       <mat-form-field appearance="fill"  class="api-key-form">
@@ -35,9 +79,8 @@
     
     <div class="home-navigation">
 
-      <button mat-raised-button color="primary" [routerLink]="['/chat']" class="chat-button">Commencer un Chat</button>
-      <button mat-raised-button color="accent" [routerLink]="['/about']" class="about-button">En savoir plus</button>
+      <button [routerLink]="['/chat']" class="chat-button">Commencer un Chat</button>
+      <button [routerLink]="['/about']" class="about-button">En savoir plus</button>
 
-      
     </div>
   </div>

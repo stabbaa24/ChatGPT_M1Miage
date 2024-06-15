@@ -110,6 +110,15 @@ img.generated-image {
   cursor: pointer;
 }
 
+.file-upload-container input[type="file"] {
+  background: #0A053B;
+  color: #F2F1E8;
+  margin: 1px;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 .load-files-button {
   padding: 0.5rem 1rem;
   background: #0A053B;

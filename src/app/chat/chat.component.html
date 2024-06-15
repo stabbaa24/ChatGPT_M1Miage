@@ -47,9 +47,9 @@
   </div>
 </div>
 <div class="user-input">
-  <div class="file-upload-container">
-    <input type="file" (change)="onFileSelected($event)">
-  </div>
+  <!-- <div >
+    <input type="file" (change)="onFileSelected($event)" class="file-upload-container">
+  </div> -->
   <div class="chat-input-container">
       <input [(ngModel)]="userInput" [matAutocomplete]="auto" placeholder="Écrivez votre message..." (input)="onInputChange()" (keydown.enter)="sendMessage()" class="chat-input">
       <mat-autocomplete #auto="matAutocomplete">

@@ -10,13 +10,12 @@ This project was developed by a group of first-year MASTER MIAGE students, as pa
 
 ## Presentation
 
-MiageGPT is an enhanced version of ChatGPT, capable of doing much more than answering text questions. Here's what MiageGPT can do for you:
+PrideGPT is an enhanced version of ChatGPT, capable of doing much more than answering text questions. Here's what PrideGPT can do for you:
 
 Classic chat management with history
 
 - Image generation with Dall-E and Stable Diffusion
 - Vocalized answers
-- Information on Miage and Sophia-Antipolis tourist attractions
 - And much more...
 
 Choose your GPT model :
