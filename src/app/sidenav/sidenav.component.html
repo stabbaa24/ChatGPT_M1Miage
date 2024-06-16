@@ -4,7 +4,7 @@
     </button>
     <div class="title-selector">
         <div class="title">
-            <span class="miagegpt-title">MiageGPT</span>
+            <span class="miagegpt-title">PrideGPT</span>
         </div>
         <div class="model-selector">
             <select id="model-select" [(ngModel)]="selectedModel" (change)="changeModel($event)" class="model-selector">
@@ -19,7 +19,7 @@
 </mat-toolbar>
   
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" [opened]="true" [style.width]="'250px'">
+    <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened" [style.width]="'250px'">
         <app-sidenav-content></app-sidenav-content>
     </mat-sidenav>
     <mat-sidenav-content class="miagegpt-content">

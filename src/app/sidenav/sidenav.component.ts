@@ -35,6 +35,7 @@ export class SidenavComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   selectedModel = 'gpt-3.5-turbo';
+  sidenavOpened = true;
 
   constructor(private modelService: ModelService) {}
 
@@ -43,7 +44,7 @@ export class SidenavComponent {
   }
   
   toggleSidenav() {
-    this.sidenav.toggle();
+    this.sidenavOpened = !this.sidenavOpened;
   }
 
   navData = navbarData;

@@ -1,11 +1,4 @@
 <div class="model-selector">
-  <label for="model-select">Choose GPT Model:</label>
-  <select id="model-select" [(ngModel)]="selectedModel">
-    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-    <option value="gpt-4">GPT-4</option>
-  </select>
-</div>
-<div class="model-selector">
   <label for="dalle-select">Choose DALL-E Model:</label>
   <select id="dalle-select" [(ngModel)]="selectedDalleModel">
     <option value="dall-e-2">DALL-E 2</option>
@@ -43,16 +36,15 @@
 
 <div class="chat-container">
   <div class="chat-body">
-    <div *ngFor="let message of messages"
-      [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'MiageGPT'}">
+    <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'User', 'bot-message': message.sender === 'PrideGPT'}">
       <span class="message-sender">{{ message.sender }}</span>
       <span class="message-content" [innerHTML]="message.content"></span>
     </div>
   </div>
 
+</div>
   <div class="chat-input-container">
-    <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..."
-      (keydown.enter)="sendMessage()">
+    <input [(ngModel)]="userInput" class="chat-input" placeholder="Écrivez votre message..." (keydown.enter)="sendMessage()">
     <button class="send-button" (click)="sendMessage()">Envoyer</button>
      
     <button class="send-button" [ngClass]="{'recording': isRecording, 'not-recording': !isRecording}" (click)="toggleRecording()">
@@ -63,4 +55,3 @@
   <div class="file-upload-container">
     <input type="file" (change)="onFileSelected($event)">
   </div>
-</div>

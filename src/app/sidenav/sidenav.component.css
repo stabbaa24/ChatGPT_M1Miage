@@ -9,6 +9,7 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
+    width: 100%;
     height: calc(100% - 64px);
     background-color: #ecf6f5;
 }

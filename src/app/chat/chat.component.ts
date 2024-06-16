@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
+import { ModelService } from '../services/model.service';
+import { environment } from '../environment/environment';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ChangeDetectorRef } from '@angular/core';
+
 
 /**
  * Interface pour un message
@@ -31,31 +33,20 @@ export interface Message {
 })
 
 export class ChatComponent {
-  messages: Message[] = [{ sender: 'MiageGPT', content: 'Bienvenue sur MiageGPT!' }]; // Les messages de la conversation
-  userInput = ''; // L'entrée utilisateur
-  selectedModel = 'gpt-3.5-turbo'; // Le modèle OpenAI par défaut
-  selectedDalleModel = 'dall-e-2'; // Le modèle DALL-E par défaut
-  selectedVoice = 'alloy'; // La voix par défaut
-  selectedStableDiffusionModel = 'stable-diffusion-v1'; // Le modèle Stable Diffusion par défaut
-  selectedLanguage = 'python'; // Le langage de programmation par défaut
-  selectedFile: File | null = null; // Le fichier audio sélectionné
+  messages: Message[] = [{ sender: 'MiageGPT', content: 'Bienvenue sur MiageGPT!' }];
+  userInput = '';
+  selectedModel = 'gpt-3.5-turbo';
+  selectedDalleModel = 'dall-e-2';
+  selectedVoice = 'alloy';
+  selectedStableDiffusionModel = 'stable-diffusion-v1';
+  selectedLanguage = 'python';
 
-  private mediaRecorder: MediaRecorder | null = null; // L'enregistreur audio
-  private audioChunks: Blob[] = []; // Les morceaux audio enregistrés
-  isRecording = false; // Indique si l'enregistrement est en cours
+  constructor(private openaiService: OpenaiService, private modelService: ModelService, private sanitizer: DomSanitizer) { }
 
-  selectedResponseMode = 'text'; // Le mode de réponse par défaut
+  ngOnInit() {
+    this.modelService.currentModel.subscribe(model => this.selectedModel = model);
+  }
 
-  /**
-   * Constructeur du composant ChatComponent
-   * @param openaiService Service OpenAI
-   * @param sanitizer Service de sécurité DOM 
-   */
-  constructor(private openaiService: OpenaiService, private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef) { }
-
-  /**
-   * Envoie un message
-   */
   sendMessage() {
     const trimmedInput = this.userInput.trim(); // Supprime les espaces inutiles
     this.userInput = ''; // Réinitialise l'entrée utilisateur
