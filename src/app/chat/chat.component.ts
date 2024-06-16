@@ -1,11 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OpenaiService } from '../services/openai.service';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+import { Observable, of } from 'rxjs';
+
+import { map } from 'rxjs/operators';
+
 import { ModelService } from '../services/model.service';
+import { HistoryService } from '../services/history.service';
 import { environment } from '../environment/environment';
+
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 /**
@@ -22,7 +36,13 @@ export interface Message {
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     OpenaiService,
@@ -33,20 +53,70 @@ export interface Message {
 })
 
 export class ChatComponent {
-  messages: Message[] = [{ sender: 'MiageGPT', content: 'Bienvenue sur MiageGPT!' }];
-  userInput = '';
-  selectedModel = 'gpt-3.5-turbo';
-  selectedDalleModel = 'dall-e-2';
-  selectedVoice = 'alloy';
-  selectedStableDiffusionModel = 'stable-diffusion-v1';
-  selectedLanguage = 'python';
+  messages: Message[] = [{ sender: 'PrideGPT', content: 'Bienvenue sur PrideGPT!' }]; // Les messages de la conversation
+  userInput = ''; // L'entrée utilisateur
+  selectedModel = 'gpt-3.5-turbo'; // Le modèle OpenAI par défaut
+  selectedDalleModel = 'dall-e-2'; // Le modèle DALL-E par défaut
+  selectedVoice = 'alloy'; // La voix par défaut
+  selectedStableDiffusionModel = 'stable-diffusion-v1'; // Le modèle Stable Diffusion par défaut
+  selectedLanguage = 'python'; // Le langage de programmation par défaut
+  selectedFile: File | null = null; // Le fichier audio sélectionné
 
-  constructor(private openaiService: OpenaiService, private modelService: ModelService, private sanitizer: DomSanitizer) { }
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  constructor(
+    private openaiService: OpenaiService, 
+    private modelService: ModelService, 
+    private sanitizer: DomSanitizer, 
+    private cdr: ChangeDetectorRef, 
+    private HistoryService: HistoryService
+  ) { }
 
   ngOnInit() {
     this.modelService.currentModel.subscribe(model => this.selectedModel = model);
   }
 
+  private mediaRecorder: MediaRecorder | null = null; // L'enregistreur audio
+  private audioChunks: Blob[] = []; // Les morceaux audio enregistrés
+  isRecording = false; // Indique si l'enregistrement est en cours
+
+  selectedResponseMode = 'text'; // Le mode de réponse par défaut
+
+  commandList: string[] = ['/image', '/speech', '/code', '/translate', '/transcribe'];
+  filteredCommands: Observable<string[]> = of([]);
+
+  onInputChange() {
+    if (this.userInput.startsWith('/')) {
+      this.filteredCommands = of(this.commandList).pipe(
+        map(commands => commands.filter(command => command.startsWith(this.userInput)))
+      );
+    } else {
+      this.filteredCommands = of([]);
+    }
+  }
+
+  private escapeHtml(text: string): string {
+    return text.replace(/&/g, '&amp;')
+               .replace(/</g, '&lt;')
+               .replace(/>/g, '&gt;')
+               .replace(/"/g, '&quot;')
+               .replace(/'/g, '&#039;');
+  }
+  
+
+  saveSession() {
+    this.HistoryService.addSession([...this.messages]); // Crée une copie des messages pour l'immuabilité
+    this.messages = []; // Réinitialisez ou non selon vos besoins
+  }
+
+  loadHistory() {
+    const allHistory = this.HistoryService.getHistory();
+    console.log(allHistory); 
+  }
+  
+  /**
+   * Envoie un message
+   */
   sendMessage() {
     const trimmedInput = this.userInput.trim(); // Supprime les espaces inutiles
     this.userInput = ''; // Réinitialise l'entrée utilisateur
@@ -59,19 +129,36 @@ export class ChatComponent {
     }
   }
 
-  sendTextMessage(text: string) { // Envoie un message texte
+  sendTextMessage(text: string) {
+    console.log('Modele utilisé : ' + this.selectedModel);
     this.messages.push({ sender: 'User', content: text }); // Ajoute le message de l'utilisateur
     this.openaiService.sendMessage(text, this.selectedModel).subscribe({ // Envoie le message à OpenAI
       next: (response) => { // En cas de succès
         const botResponse = response.choices[0].message.content; // Récupère la réponse du bot
-        this.messages.push({ sender: 'MiageGPT', content: botResponse }); // Ajoute la réponse du bot
+        const escapedResponse = this.escapeHtml(botResponse); // Échappe les caractères HTML
+        this.typeWriterText(escapedResponse, 'PrideGPT'); // Affiche la réponse progressivement
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
+  
+
+  // sendTextMessage(text: string) { // Envoie un message texte
+  //   this.messages.push({ sender: 'User', content: text }); // Ajoute le message de l'utilisateur
+  //   this.openaiService.sendMessage(text, this.selectedModel).subscribe({ // Envoie le message à OpenAI
+  //     next: (response) => { // En cas de succès
+  //       const botResponse = response.choices[0].message.content; // Récupère la réponse du bot
+  //       this.messages.push({ sender: 'PrideGPT', content: botResponse }); // Ajoute la réponse du bot
+  //     },
+  //     error: (err) => { // En cas d'erreur
+  //       console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
+  //       this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+  //     }
+  //   });
+  // }
 
   /**
    * Méthode pour traiter les commandes
@@ -129,12 +216,12 @@ export class ChatComponent {
         const imageUrl = response.data[0].url; // Récupère l'URL de l'image
         console.log('URL de l\'image:', imageUrl); // Affiche l'URL de l'image dans la console
 
-        const imageHtml = this.sanitizer.bypassSecurityTrustHtml(`<img src="${imageUrl}" alt="Generated Image" style="max-width:100%; height:auto;">`); // Crée une balise HTML pour l'image
-        this.messages.push({ sender: 'MiageGPT', content: imageHtml as string }); // Ajoute l'image à la conversation
+        const imageHtml = this.sanitizer.bypassSecurityTrustHtml(`<img src="${imageUrl}" alt="Generated Image" style="max-width:500px; height:500px;">`); // Crée une balise HTML pour l'image
+        this.messages.push({ sender: 'PrideGPT', content: imageHtml as string }); // Ajoute l'image à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -158,11 +245,11 @@ export class ChatComponent {
         console.log('URL de l\'audio:', audioUrl); // Affiche l'URL de l'audio dans la console
 
         const audioHtml = this.sanitizer.bypassSecurityTrustHtml(`<audio controls><source src="${audioUrl}" type="audio/mp3"></audio>`); // Crée une balise HTML pour l'audio
-        this.messages.push({ sender: 'MiageGPT', content: audioHtml as string }); // Ajoute l'audio à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: audioHtml as string }); // Ajoute l'audio à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -186,11 +273,11 @@ export class ChatComponent {
         console.log('URL de l\'image Stable Diffusion:', imageUrl); // Affiche l'URL de l'image dans la console
 
         const imageHtml = this.sanitizer.bypassSecurityTrustHtml(`<img src="${imageUrl}" alt="Generated Image" style="max-width:100%; height:auto;">`); // Crée une balise HTML pour l'image
-        this.messages.push({ sender: 'MiageGPT', content: imageHtml as string }); // Ajoute l'image à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: imageHtml as string }); // Ajoute l'image à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling Stable Diffusion API:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à l\'API Stable Diffusion.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à l\'API Stable Diffusion.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -216,11 +303,11 @@ export class ChatComponent {
 
         const code = response.choices[0].message.content; // Récupère le code généré
         const codeHtml = this.sanitizer.bypassSecurityTrustHtml(`<pre><code>${code}</code></pre>`); // Crée une balise HTML pour le code
-        this.messages.push({ sender: 'MiageGPT', content: codeHtml as string }); // Ajoute le code à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: codeHtml as string }); // Ajoute le code à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -253,11 +340,11 @@ export class ChatComponent {
         console.log('Réponse de l\'API pour la traduction:', response); // Affiche la réponse dans la console
 
         const translation = response.choices[0].message.content; // Récupère la traduction
-        this.messages.push({ sender: 'MiageGPT', content: translation }); // Ajoute la traduction à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: translation }); // Ajoute la traduction à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -276,11 +363,11 @@ export class ChatComponent {
     this.openaiService.sendTranscriptionRequest(this.selectedFile).subscribe({ // Envoie la demande de transcription à OpenAI
       next: (response) => { // En cas de succès 
         const transcription = response.text; // Récupère la transcription
-        this.messages.push({ sender: 'MiageGPT', content: transcription }); // Ajoute la transcription à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: transcription }); // Ajoute la transcription à la conversation
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       }
     });
   }
@@ -371,12 +458,12 @@ export class ChatComponent {
       if (this.selectedResponseMode === 'speech') { // Vérifie si le mode de réponse est vocal
         this.sendSpeechResponse(text); // Envoie une réponse vocale
       } else {
-        this.messages.push({ sender: 'MiageGPT', content: text }); // Ajoute la réponse du bot à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: text }); // Ajoute la réponse du bot à la conversation
         this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
       }
     } catch (err) { // En cas d'erreur
       console.error('Error when calling OpenAI:', err); // Affiche l'erreur dans la console
-      this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
+      this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI.' }); // Ajoute un message d'erreur
       this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
     }
   }
@@ -391,14 +478,34 @@ export class ChatComponent {
         const audioUrl = URL.createObjectURL(response); // Crée une URL pour l'audio
         console.log('Audio URL:', audioUrl);  // Affiche l'URL de l'audio dans la console
         const audioHtml = this.sanitizer.bypassSecurityTrustHtml(`<audio controls><source src="${audioUrl}" type="audio/mp3"></audio>`); // Crée une balise HTML pour l'audio
-        this.messages.push({ sender: 'MiageGPT', content: audioHtml as string }); // Ajoute l'audio à la conversation
+        this.messages.push({ sender: 'PrideGPT', content: audioHtml as string }); // Ajoute l'audio à la conversation
         this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
       },
       error: (err) => { // En cas d'erreur
         console.error('Error when calling OpenAI for speech:', err); // Affiche l'erreur dans la console
-        this.messages.push({ sender: 'MiageGPT', content: 'Erreur lors de la connexion à OpenAI pour la réponse vocale.' }); // Ajoute un message d'erreur
+        this.messages.push({ sender: 'PrideGPT', content: 'Erreur lors de la connexion à OpenAI pour la réponse vocale.' }); // Ajoute un message d'erreur
         this.cdr.detectChanges(); // Force la mise à jour de l'interface utilisateur
       }
     });
-  }  
+  }
+  
+  triggerFileUpload() {
+    this.fileInput.nativeElement.click();
+  } 
+
+  private typeWriterText(content: string, sender: string) {
+    const message: Message = { sender: sender, content: '' };
+    this.messages.push(message);
+  
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < content.length) {
+        message.content += content.charAt(index);
+        this.cdr.detectChanges();
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 10); // Vitesse de saisie (50ms par caractère)
+  }
 }

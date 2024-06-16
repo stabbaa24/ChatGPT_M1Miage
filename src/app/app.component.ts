@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { NavbarComponent } from "./navbar/navbar.component";
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +24,6 @@ import { BodyComponent } from './sidebar/body/body.component';
         MatToolbarModule,
 
         SidenavComponent,
-        NavbarComponent,
         BodyComponent,
         MatButtonModule,
         MatInputModule,

@@ -1,17 +1,16 @@
 <div class="home-container">
-    <div class="home-header">
-      <img src="assets/PrideGPT-Logo.png" class="home-logo" alt="MiageGPT Logo">
-      <h1>Bienvenue sur PrideGPT</h1>
-    </div>
-    
-    <div class="home-content">
-      <p>
+  <div class="home-header">
+    <img src="assets/PrideGPT-Logo.png" class="home-logo" alt="PrideGPT Logo">
+    <h1>Bienvenue sur PrideGPT</h1>
+  </div>
+  
+  <div class="home-content">
+    <p>
         PrideGPT est une version améliorée de ChatGPT, capable de faire bien plus que répondre à des questions textuelles.
         Voici ce que PrideGPT peut faire pour vous :
       </p>
       <ul>
-        <li>Gestion de chat classique avec historique</li>
-        <li>Génération d'images avec Dall-E et Stable Diffusion</li>
+        <li>Génération d'images avec Dall-E</li>
         <li>Réponses vocalisées</li>
         <li>Et bien plus encore...</li>
       </ul>
@@ -19,8 +18,8 @@
         Choisir le modèle de GPT :
       </p>
       <ul>
-        <li>GPT -3.5 Turbo</li>
-        <li>GPT -4</li>
+        <li>GPT 3.5 Turbo</li>
+        <li>GPT 4</li>
       </ul>
       <p>
         Choisir le modèle DALL-E :
@@ -69,18 +68,19 @@
         <li>Bouton vocal Qui permet de faire des requetes avec le son de votre voix. Il faudra choisir le type de réponse, entre Speech et text</li>
       </ul>
     </div>
-    
-    <div class="home-navigation">
-      <button mat-raised-button color="primary" [routerLink]="['/chat']">Commencer un Chat</button>
-      <button mat-raised-button color="accent" [routerLink]="['/about']">En savoir plus</button>
-    </div>
-
-    <div class="api-key-input">
-        <mat-form-field appearance="fill">
-          <mat-label>Entrez votre clé OpenAI</mat-label>
-          <input matInput [(ngModel)]="openaiApiKey" placeholder="Votre clé OpenAI">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="saveApiKey()">Enregistrer</button>
-      </div>
-      
+  
+  <div class="api-input">
+    <mat-form-field appearance="fill"  class="api-key-form">
+      <mat-label>Entrez votre clé OpenAI</mat-label>
+      <input [(ngModel)]="openaiApiKey" placeholder="Votre clé OpenAI" class="api-key-input">
+    </mat-form-field>
+    <button color="primary" (click)="saveApiKey()" class="api-key-button">Enregistrer</button>
   </div>
+  
+  <div class="home-navigation">
+
+    <button [routerLink]="['/chat']" class="chat-button">Commencer un Chat</button>
+    <button [routerLink]="['/about']" class="about-button">En savoir plus</button>
+
+  </div>
+</div>

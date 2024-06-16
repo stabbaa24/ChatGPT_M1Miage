@@ -1,24 +1,53 @@
 <div class="about-container">
-    <div class="about-header">
-      <img src="assets/miagegpt-logo.png" class="about-logo" alt="MiageGPT Logo">
-      <h1>À propos</h1>
-    </div>
-    
-    <div class="about-content">
-      
-      
-      <h2>Les Développeurs</h2>
-      <p>
-        Ce projet a été développé par un groupe d'étudiants en première année de MASTER à BIOT, dans le cadre d'un projet universitaire.
-      </p>
-      <h3>Leurs noms</h3>
-      <p>
-        Arthur PRUDENT, Pierre SAVE et Siham TABBAA
-      </p>
-    </div>
-    
-    <div class="about-navigation">
-      <button mat-raised-button color="primary" [routerLink]="['/home']">Retour à l'accueil</button>
-      <button mat-raised-button color="accent" [routerLink]="['/chat']">Commencer un Chat</button>
-    </div>
+  <div class="about-header">
+    <img src="assets/miagegpt-logo.png" class="about-logo" alt="MiageGPT Logo">
+    <h1>À propos</h1>
   </div>
+  
+  <div class="about-content">
+    <p>
+      Ce 
+      <a href="https://github.com/stabbaa24/ChatGPT_M1Miage">projet</a> 
+      a été développé par un groupe d'étudiants en première année de MASTER MIAGE, dans le cadre d'un projet pour matière Introduction à l'IA.
+    </p>
+    <h2>Les Développeurs</h2>
+    <div class="profil">
+      <div class="S">
+        <img src="https://media.licdn.com/dms/image/D4D03AQE6sQWMN2Zpmw/profile-displayphoto-shrink_400_400/0/1711407636208?e=1723680000&v=beta&t=QoZUiqTIxB7MeCamNu-ujQc4CdrmHlrcuvAWJV5OHNM" class="about-image" alt="Siham">
+        <div class="description">
+          <h3 class="nom">Siham TABBAA</h3>
+          <p>
+            <a href="https://www.linkedin.com/in/siham-tabbaa/" target="_blank">
+              <img src="../..\assets\linkedin.png" alt="" class="linkedin-img">
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="Pierre">
+        <img src="https://media.licdn.com/dms/image/D4D03AQEIsnGeVQStrw/profile-displayphoto-shrink_400_400/0/1689534411117?e=1723680000&v=beta&t=uvjvMheY6-9vuUe6wM9IrPvU-imP3oluBp6b2IG4heI" class="about-image" alt="Pierre">
+        <div class="description">
+          <h3 class="nom">Pierre SAVE</h3>
+          <p>
+            <a href="https://www.linkedin.com/in/pierre-save-929471231/" target="_blank">
+              <img src="../..\assets\linkedin.png" alt="" class="linkedin-img">
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="Arthur">
+        <img src="https://media.licdn.com/dms/image/C4E03AQE-k9MOzK_JSQ/profile-displayphoto-shrink_400_400/0/1642695719536?e=1723680000&v=beta&t=M7969YZrjnINX08aKH3-MOrznlzGxjYytSJ_Rpouguk" class="about-image" alt="Arthur">
+        <div class="description">
+          <h3 class="nom">Arthur PRUDENT</h3>
+          <p>
+            <a href="https://www.linkedin.com/in/arthur-prudent-4192701b6/" target="_blank">
+              <img src="../..\assets\linkedin.png" alt="" class="linkedin-img">
+            </a>
+          </p>
+      </div>
+    </div>
+</div>
+
+<div class="about-navigation">
+  <button [routerLink]="['/home']" class="home-button">Retour à l'accueil</button>
+  <button [routerLink]="['/chat']" class="chat-button">Commencer un Chat</button>
+</div>
