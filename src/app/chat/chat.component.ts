@@ -168,8 +168,6 @@ export class ChatComponent {
     const [commandKey, ...args] = command.split(' '); // Découpe la commande en clé et arguments
     const description = args.join(' '); // Concatène les arguments en une description
 
-    this.messages.push({ sender: 'User', content: command }); // Ajoute la commande à la conversation
-
     switch (commandKey) { // Traite la commande en fonction de la clé
       case '/image': // Si la commande est '/image'
         const text = "Génère l'image : " + description; // Prépare la description
